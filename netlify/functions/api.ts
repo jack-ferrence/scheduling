@@ -2,11 +2,12 @@
 // The redirect in netlify.toml sends /api/* → /.netlify/functions/api/:splat
 // and preserves the original /api/... path so Express routes match as-is.
 
-import serverless from 'serverless-http';
-
-// Ensure the server module knows it's running under Netlify so it skips .listen()
+// NOTE: ES module imports are hoisted, so setting process.env.NETLIFY in the
+// module body would happen AFTER server/index is imported. We set it here
+// before any import so the guard in server/index.ts fires correctly.
 process.env.NETLIFY = process.env.NETLIFY ?? 'true';
 
+import serverless from 'serverless-http';
 import { app } from '../../server/index';
 
 // serverless-http returns a function compatible with AWS Lambda / Netlify Functions.

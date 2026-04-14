@@ -1,7 +1,9 @@
 import pg from 'pg';
 import 'dotenv/config';
 
-const connectionString = process.env.DATABASE_URL;
+// Strip all whitespace — Netlify's env-var UI sometimes wraps long values and
+// turns the wrap into real spaces, which corrupts the hostname.
+const connectionString = process.env.DATABASE_URL?.replace(/\s+/g, '');
 if (!connectionString) {
   console.warn(
     '[db] DATABASE_URL is not set. Set it in .env (see .env.example) before running the API or db:reset.'

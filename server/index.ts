@@ -484,7 +484,7 @@ app.delete('/api/time-slots/:slotId/join', async (req, res) => {
   res.status(204).send();
 });
 
-if (process.env.NODE_ENV === 'production' && !process.env.NETLIFY) {
+if (process.env.NODE_ENV === 'production' && !process.env.NETLIFY && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
   const dist = path.join(__dirname, '..', 'dist');
   app.use(express.static(dist));
   app.get('*', (req, res, next) => {
@@ -500,7 +500,7 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
 
 // Only start a listener when run directly (local dev / `npm start`).
 // When imported by a Netlify Function we just export the app.
-if (!process.env.NETLIFY) {
+if (!process.env.NETLIFY && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
   app.listen(PORT, () => {
     console.log(`API listening on http://localhost:${PORT}`);
   });
