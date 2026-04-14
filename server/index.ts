@@ -9,7 +9,18 @@ import { pool } from './db';
 import { facilityRowToApi, timeSlotFromRow } from './mappers';
 import type { Participant } from '../app/types/index';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Resolve __dirname in a way that survives both ESM (tsx local dev) and
+// bundled CJS (Netlify Functions via esbuild, where import.meta.url is undefined).
+const __dirname = (() => {
+  try {
+    // @ts-expect-error — import.meta.url is undefined when bundled to CJS
+    const url = import.meta.url;
+    if (typeof url === 'string') return path.dirname(fileURLToPath(url));
+  } catch {
+    // fall through
+  }
+  return process.cwd();
+})();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
