@@ -33,8 +33,8 @@ export function OfficialEventCard({ event, facility, onClick }: OfficialEventCar
   const date = new Date(event.date + 'T00:00:00');
 
   return (
-    <Card 
-      className="border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50 cursor-pointer hover:shadow-xl transition-all duration-300"
+    <Card
+      className="border border-warning/40 bg-warning/5 cursor-pointer hover:shadow-md transition-all duration-300"
       onClick={onClick}
     >
       <CardHeader className="pb-3">
@@ -45,7 +45,7 @@ export function OfficialEventCard({ event, facility, onClick }: OfficialEventCar
                 {eventTypeLabels[event.eventType]}
               </Badge>
               {event.isPublic && (
-                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
+                <Badge variant="outline" className="bg-success/10 text-success border-success/30">
                   Public Event
                 </Badge>
               )}
@@ -58,20 +58,20 @@ export function OfficialEventCard({ event, facility, onClick }: OfficialEventCar
       <CardContent className="space-y-3">
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-sm">
-            <Building2 className="size-4 text-amber-600" />
+            <Building2 className="size-4 text-warning" />
             <span className="font-medium">{facility.name}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <Calendar className="size-4 text-amber-600" />
+            <Calendar className="size-4 text-warning" />
             <span>{format(date, 'EEEE, MMMM d, yyyy')}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
-            <Clock className="size-4 text-amber-600" />
+            <Clock className="size-4 text-warning" />
             <span>{formatTimeRange(event.startTime, event.endTime)}</span>
           </div>
           {event.attendance && (
             <div className="flex items-center gap-2 text-sm">
-              <Users className="size-4 text-amber-600" />
+              <Users className="size-4 text-warning" />
               <span>Expected Attendance: {event.attendance}</span>
             </div>
           )}
@@ -84,9 +84,9 @@ export function OfficialEventCard({ event, facility, onClick }: OfficialEventCar
         )}
 
         {event.notes && (
-          <div className="flex items-start gap-2 p-2 bg-amber-100 rounded-lg border border-amber-300">
-            <AlertCircle className="size-4 text-amber-700 mt-0.5 flex-shrink-0" />
-            <p className="text-xs text-amber-900">{event.notes}</p>
+          <div className="flex items-start gap-2 p-2 bg-warning/15 rounded-lg border border-warning/40">
+            <AlertCircle className="size-4 text-warning mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-foreground/80">{event.notes}</p>
           </div>
         )}
 
@@ -101,7 +101,7 @@ export function OfficialEventCard({ event, facility, onClick }: OfficialEventCar
           <div className="text-xs text-muted-foreground pt-2 border-t">
             <p className="font-medium">Contact: {event.contactName}</p>
             {event.contactEmail && (
-              <p className="text-blue-600">{event.contactEmail}</p>
+              <p className="text-info">{event.contactEmail}</p>
             )}
           </div>
         )}

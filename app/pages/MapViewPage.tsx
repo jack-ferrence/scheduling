@@ -31,7 +31,7 @@ export function MapViewPage() {
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Facility Map</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Facility Map</h1>
         <p className="text-muted-foreground mt-2">Find facilities near you</p>
       </div>
 
@@ -52,24 +52,24 @@ export function MapViewPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
               <div className="text-center p-4 rounded-lg bg-muted">
-                <div className="text-2xl font-bold text-primary">{facilitiesWithDistance.length}</div>
+                <div className="text-2xl font-semibold text-primary tabular-nums">{facilitiesWithDistance.length}</div>
                 <div className="text-sm text-muted-foreground">Total Facilities</div>
               </div>
               <div className="text-center p-4 rounded-lg bg-muted">
-                <div className="text-2xl font-bold text-primary">
+                <div className="text-2xl font-semibold text-primary tabular-nums">
                   {facilitiesWithDistance.filter(f => f.type === 'campus').length}
                 </div>
                 <div className="text-sm text-muted-foreground">Campus Facilities</div>
               </div>
               <div className="text-center p-4 rounded-lg bg-muted">
-                <div className="text-2xl font-bold text-primary">
+                <div className="text-2xl font-semibold text-primary tabular-nums">
                   {facilitiesWithDistance.filter(f => f.type === 'park').length}
                 </div>
                 <div className="text-sm text-muted-foreground">Public Parks</div>
               </div>
             </div>
 
-            <div className="p-4 rounded-lg border-2 border-dashed border-muted-foreground/30">
+            <div className="p-4 rounded-lg border border-dashed border-muted-foreground/30">
               <p className="text-sm text-center text-muted-foreground">
                 Interactive map view - Click on facilities below to see details
               </p>
@@ -90,7 +90,7 @@ export function MapViewPage() {
             return (
               <Card
                 key={facility.id}
-                className={`cursor-pointer transition-all hover:shadow-lg ${
+                className={`cursor-pointer transition-all hover:shadow-md ${
                   selectedFacility === facility.id ? 'ring-2 ring-primary' : ''
                 }`}
                 onClick={() => setSelectedFacility(facility.id)}
@@ -119,7 +119,7 @@ export function MapViewPage() {
                       {facility.drivingETA !== undefined && (
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <Car className="size-3.5 text-blue-600" />
+                            <Car className="size-3.5 text-info" />
                             <span className="text-muted-foreground">Driving:</span>
                           </div>
                           <span className="font-medium">{facility.drivingETA} min</span>
@@ -128,7 +128,7 @@ export function MapViewPage() {
                       {facility.walkingETA !== undefined && (
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            <PersonStanding className="size-3.5 text-green-600" />
+                            <PersonStanding className="size-3.5 text-success" />
                             <span className="text-muted-foreground">Walking:</span>
                           </div>
                           <span className="font-medium">{facility.walkingETA} min</span>

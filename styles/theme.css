@@ -20,6 +20,12 @@
   --accent-foreground: #030213;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
+  --info: oklch(0.55 0.17 252);
+  --info-foreground: oklch(0.985 0 0);
+  --success: oklch(0.58 0.14 150);
+  --success-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.68 0.15 65);
+  --warning-foreground: oklch(0.2 0 0);
   --border: rgba(0, 0, 0, 0.1);
   --input: transparent;
   --input-background: #f3f3f5;
@@ -59,7 +65,13 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --destructive-foreground: oklch(0.985 0 0);
+  --info: oklch(0.7 0.16 252);
+  --info-foreground: oklch(0.145 0 0);
+  --success: oklch(0.72 0.15 150);
+  --success-foreground: oklch(0.145 0 0);
+  --warning: oklch(0.8 0.16 75);
+  --warning-foreground: oklch(0.145 0 0);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
@@ -81,6 +93,7 @@
 }
 
 @theme inline {
+  --font-sans: var(--font-sans);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -97,6 +110,12 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
@@ -126,50 +145,50 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
   html {
     font-size: var(--font-size);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv11' 1, 'ss01' 1;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
+
+  /*
+   * Base element typography. Tailwind utilities (text-sm, text-lg, font-bold)
+   * still override these — they're just the defaults for unstyled elements.
+   * Headings lean on tighter tracking and line-height; body favors looser
+   * leading for readability.
+   */
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-wrap: balance;
   }
 
   h1 {
     font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    letter-spacing: -0.025em;
   }
 
-  h2 {
-    font-size: var(--text-xl);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+  h2 { font-size: var(--text-xl); }
+  h3 { font-size: var(--text-lg); }
+  h4 { font-size: var(--text-base); }
+
+  p {
+    text-wrap: pretty;
   }
 
-  h3 {
-    font-size: var(--text-lg);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  h4 {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  label {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-  }
-
-  button {
+  label, button {
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
@@ -179,5 +198,11 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+
+  /* Numerals in stats, counts, time displays — align vertically in columns. */
+  .tabular-nums,
+  [data-tabular] {
+    font-variant-numeric: tabular-nums;
   }
 }

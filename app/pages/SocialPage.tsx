@@ -67,7 +67,7 @@ export function SocialPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Social Feed</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Social Feed</h1>
         <p className="text-muted-foreground mt-2">Stay connected with the Biola sports community</p>
       </div>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useLocation, Link } from 'react-router';
 import { Button } from '../components/ui/button';
 import { 
@@ -25,6 +25,20 @@ export function RootLayout() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  // Close the mobile menu whenever navigation happens or the Escape key is pressed.
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileMenuOpen]);
+
   const navItems = [
     { path: '/', label: 'Dashboard', icon: Home },
     { path: '/reservations', label: 'My Reservations', icon: Calendar },
@@ -47,15 +61,16 @@ export function RootLayout() {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Logo and Brand */}
-            <Link to="/" className="flex items-center gap-3">
-              <div className="size-10 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">B</span>
+            <Link
+              to="/"
+              className="flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <div className="size-10 rounded-md bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-semibold text-lg leading-none">B</span>
               </div>
-              <div>
-                <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  Biola Sports
-                </h1>
-                <p className="text-xs text-muted-foreground">Recreation Scheduler</p>
+              <div className="leading-tight">
+                <h1 className="text-base font-semibold tracking-tight text-foreground">Biola Sports</h1>
+                <p className="text-xs text-muted-foreground">Recreation</p>
               </div>
             </Link>
 
@@ -81,26 +96,30 @@ export function RootLayout() {
             </nav>
 
             {/* User Menu & Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onClick={toggleTheme}
-                className="hidden md:flex"
+                className="size-11"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {theme === 'dark' ? (
-                  <Sun className="size-4" />
+                  <Sun className="size-5" />
                 ) : (
-                  <Moon className="size-4" />
+                  <Moon className="size-5" />
                 )}
               </Button>
 
               {/* Mobile menu button */}
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden"
+                className="size-11 lg:hidden"
+                aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-nav"
               >
                 {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
               </Button>
@@ -109,7 +128,7 @@ export function RootLayout() {
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <nav className="lg:hidden pt-4 pb-2 space-y-1">
+            <nav id="mobile-nav" className="lg:hidden pt-4 pb-2 space-y-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -128,17 +147,6 @@ export function RootLayout() {
                   </Link>
                 );
               })}
-              <div className="flex items-center gap-2 px-4 py-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={toggleTheme}
-                  className="flex-1"
-                >
-                  {theme === 'dark' ? <Sun className="size-4 mr-2" /> : <Moon className="size-4 mr-2" />}
-                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                </Button>
-              </div>
             </nav>
           )}
         </div>
@@ -154,12 +162,15 @@ export function RootLayout() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground text-center md:text-left">
-              © 2026 Biola University. All rights reserved.
+              © {new Date().getFullYear()} Biola University. All rights reserved.
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-foreground transition-colors">Contact Support</a>
+              <a
+                href="mailto:campus-recreation@biola.edu"
+                className="hover:text-foreground transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                Contact Support
+              </a>
             </div>
           </div>
         </div>

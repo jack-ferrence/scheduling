@@ -65,7 +65,7 @@ export function ProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">My Profile</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">My Profile</h1>
         <p className="text-muted-foreground mt-2">Manage your account settings and preferences</p>
       </div>
 
@@ -74,12 +74,12 @@ export function ProfilePage() {
         <Card className="md:col-span-1">
           <CardContent className="pt-6 text-center space-y-4">
             <Avatar className="size-24 mx-auto">
-              <AvatarFallback className="text-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white">
+              <AvatarFallback className="text-2xl bg-primary text-primary-foreground font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="text-xl font-bold">{formData.name}</h2>
+              <h2 className="text-xl font-semibold">{formData.name}</h2>
               <Badge variant="secondary" className="mt-2 capitalize">
                 Community Member
               </Badge>
@@ -180,20 +180,20 @@ export function ProfilePage() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center p-4 border rounded-lg">
-              <p className="text-3xl font-bold text-blue-600">{myReservationsCount}</p>
-              <p className="text-sm text-muted-foreground mt-1">Total Sessions</p>
+              <p className="text-3xl font-semibold tracking-tight tabular-nums text-info">{myReservationsCount}</p>
+              <p className="text-sm text-muted-foreground mt-1">Total sessions</p>
             </div>
             <div className="text-center p-4 border rounded-lg">
-              <p className="text-3xl font-bold text-green-600">{completed}</p>
+              <p className="text-3xl font-semibold tracking-tight tabular-nums text-success">{completed}</p>
               <p className="text-sm text-muted-foreground mt-1">Completed</p>
             </div>
             <div className="text-center p-4 border rounded-lg">
-              <p className="text-3xl font-bold text-amber-600">{upcoming}</p>
+              <p className="text-3xl font-semibold tracking-tight tabular-nums text-warning">{upcoming}</p>
               <p className="text-sm text-muted-foreground mt-1">Upcoming</p>
             </div>
             <div className="text-center p-4 border rounded-lg">
-              <p className="text-3xl font-bold text-purple-600">{facilitiesUsed}</p>
-              <p className="text-sm text-muted-foreground mt-1">Facilities Used</p>
+              <p className="text-3xl font-semibold tracking-tight tabular-nums text-primary">{facilitiesUsed}</p>
+              <p className="text-sm text-muted-foreground mt-1">Facilities used</p>
             </div>
           </div>
         </CardContent>

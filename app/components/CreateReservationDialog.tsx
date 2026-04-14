@@ -270,9 +270,9 @@ export function CreateReservationDialog({
                 </p>
 
                 {dayBlocked.length === 0 ? (
-                  <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
+                  <div className="flex items-center gap-2 text-sm text-success">
                     <CheckCircle className="size-4 flex-shrink-0" />
-                    <span>Fully open — no 25live events scheduled</span>
+                    <span>Open all day — no official events scheduled</span>
                   </div>
                 ) : (
                   <div className="space-y-1.5">
@@ -280,8 +280,8 @@ export function CreateReservationDialog({
                       .sort((a, b) => a.start_local.localeCompare(b.start_local))
                       .map((b) => (
                         <div key={b.booking_id} className="flex items-center gap-2">
-                          <XCircle className="size-3.5 text-red-500 flex-shrink-0" />
-                          <span className="text-xs font-medium text-red-700 dark:text-red-400">
+                          <XCircle className="size-3.5 text-destructive flex-shrink-0" />
+                          <span className="text-xs font-medium text-destructive">
                             {formatTo12Hour(b.start_local)} – {formatTo12Hour(b.end_local)}
                           </span>
                           <span className="text-xs text-muted-foreground truncate">{b.event_name}</span>
@@ -292,10 +292,10 @@ export function CreateReservationDialog({
 
                 {freeWindows.length > 0 && (
                   <div className="pt-1 border-t space-y-1">
-                    <p className="text-xs text-muted-foreground">Open windows:</p>
+                    <p className="text-xs text-muted-foreground">Available times:</p>
                     <div className="flex flex-wrap gap-1.5">
                       {freeWindows.map((w, i) => (
-                        <Badge key={i} variant="outline" className="text-xs text-green-700 dark:text-green-400 border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-950/30">
+                        <Badge key={i} variant="outline" className="text-xs text-success border-success/30 bg-success/10">
                           <CheckCircle className="size-3 mr-1" />
                           {formatTo12Hour(w.start)} – {formatTo12Hour(w.end)}
                         </Badge>
@@ -310,10 +310,10 @@ export function CreateReservationDialog({
             {date && (
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label>Start Time *</Label>
+                  <Label>Start time *</Label>
                   <Select value={startTime} onValueChange={handleStartChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Pick start" />
+                      <SelectValue placeholder="Choose a start time" />
                     </SelectTrigger>
                     <SelectContent className="max-h-56">
                       {startOptions.map((t) => {
@@ -324,7 +324,7 @@ export function CreateReservationDialog({
                               {formatTo12Hour(t)}
                             </span>
                             {blocked && (
-                              <span className="ml-1 text-xs text-red-500">blocked</span>
+                              <span className="ml-1 text-xs text-destructive">unavailable</span>
                             )}
                           </SelectItem>
                         );
@@ -334,10 +334,10 @@ export function CreateReservationDialog({
                 </div>
 
                 <div className="grid gap-2">
-                  <Label>End Time *</Label>
+                  <Label>End time *</Label>
                   <Select value={endTime} onValueChange={setEndTime} disabled={!startTime}>
                     <SelectTrigger>
-                      <SelectValue placeholder={startTime ? 'Pick end' : '—'} />
+                      <SelectValue placeholder={startTime ? 'Choose an end time' : 'Choose a start time first'} />
                     </SelectTrigger>
                     <SelectContent className="max-h-56">
                       {endOptions.map((t) => {
@@ -348,7 +348,7 @@ export function CreateReservationDialog({
                               {formatTo12Hour(t)}
                             </span>
                             {conflict && (
-                              <span className="ml-1 text-xs text-red-500">conflict</span>
+                              <span className="ml-1 text-xs text-destructive">overlaps an event</span>
                             )}
                           </SelectItem>
                         );

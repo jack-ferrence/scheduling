@@ -48,7 +48,7 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
   const firstDayOfMonth = monthStart.getDay();
 
   return (
-    <Card className="shadow-lg">
+    <Card className="shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
@@ -56,10 +56,10 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
             {format(currentMonth, 'MMMM yyyy')}
           </CardTitle>
           <div className="flex items-center gap-3">
-            <Badge variant="outline" className="text-sm bg-blue-50">
+            <Badge variant="outline" className="text-sm bg-info/10 text-info border-info/30">
               {timeSlots.length} Recreational Sessions
             </Badge>
-            <Badge variant="outline" className="text-sm bg-amber-50">
+            <Badge variant="outline" className="text-sm bg-warning/10 text-warning border-warning/30">
               {officialEvents.length} Official Events
             </Badge>
           </div>
@@ -68,17 +68,18 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
       <CardContent>
         <div className="flex items-center gap-4 mb-4 text-xs">
           <div className="flex items-center gap-2">
-            <div className="size-3 rounded bg-blue-500"></div>
+            <div className="size-3 rounded bg-info"></div>
             <span>Recreational Sessions</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="size-3 rounded bg-amber-500"></div>
+            <div className="size-3 rounded bg-warning"></div>
             <span>Official Events</span>
           </div>
         </div>
         
         {/* Calendar Grid */}
-        <div className="grid grid-cols-7 gap-2">
+        <div className="-mx-2 overflow-x-auto px-2 sm:mx-0 sm:px-0">
+        <div className="grid grid-cols-7 gap-2 min-w-[640px]">
           {/* Week day headers */}
           {weekDays.map(day => (
             <div key={day} className="text-center font-semibold text-sm text-muted-foreground py-2">
@@ -103,11 +104,11 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
             return (
               <div
                 key={dateStr}
-                className={`min-h-[140px] p-2 rounded-lg border-2 transition-all ${
+                className={`min-h-[140px] p-2 rounded-lg border transition-all ${
                   isCurrentDay
                     ? 'border-primary bg-primary/5'
                     : hasActivities
-                    ? 'border-border bg-card hover:border-primary/50'
+                    ? 'border-border bg-card hover:border-primary/40'
                     : 'border-border/50 bg-card/50'
                 } ${!isCurrentMonth ? 'opacity-50' : ''}`}
               >
@@ -122,7 +123,7 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
                       <div
                         key={event.id}
                         onClick={() => onSelectOfficialEvent(event.id)}
-                        className="text-xs p-1.5 rounded cursor-pointer transition-all bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300"
+                        className="text-xs p-1.5 rounded cursor-pointer transition-all bg-warning/15 hover:bg-warning/25 text-foreground border border-warning/40"
                       >
                         <div className="font-semibold truncate flex items-center gap-1">
                           <Building2 className="size-2.5 flex-shrink-0" />
@@ -146,8 +147,8 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
                         onClick={() => onSelectTimeSlot(session.id)}
                         className={`text-xs p-1.5 rounded cursor-pointer transition-all ${
                           isFull
-                            ? 'bg-red-100 hover:bg-red-200 text-red-900'
-                            : 'bg-blue-100 hover:bg-blue-200 text-blue-900'
+                            ? 'bg-destructive/15 hover:bg-destructive/25 text-destructive'
+                            : 'bg-info/15 hover:bg-info/25 text-info'
                         }`}
                       >
                         <div className="font-semibold truncate">{session.sport}</div>
@@ -172,6 +173,7 @@ export function CalendarView({ timeSlots, officialEvents, facilities, onSelectTi
               </div>
             );
           })}
+        </div>
         </div>
       </CardContent>
     </Card>

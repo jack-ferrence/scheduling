@@ -17,7 +17,7 @@ export function EventsPage() {
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Official Biola Events</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Official Biola Events</h1>
         <p className="text-muted-foreground mt-2">View scheduled 25Live events that affect facility availability</p>
       </div>
 

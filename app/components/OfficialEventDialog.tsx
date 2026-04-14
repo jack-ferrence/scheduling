@@ -48,7 +48,7 @@ export function OfficialEventDialog({ open, onOpenChange, event, facility }: Off
               {eventTypeLabels[event.eventType]}
             </Badge>
             {event.isPublic && (
-              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-300">
+              <Badge variant="outline" className="bg-success/10 text-success border-success/30">
                 Open to Public
               </Badge>
             )}
@@ -90,12 +90,12 @@ export function OfficialEventDialog({ open, onOpenChange, event, facility }: Off
 
           {/* Setup and Teardown Times */}
           {event.setupTime && event.teardownTime && (
-            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <div className="p-4 bg-warning/10 border border-warning/30 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <AlertCircle className="size-4 text-amber-700" />
-                <span className="font-semibold text-sm text-amber-900">Facility Reserved</span>
+                <AlertCircle className="size-4 text-warning" />
+                <span className="font-semibold text-sm">Facility reserved</span>
               </div>
-              <div className="text-sm text-amber-800 space-y-1">
+              <div className="text-sm text-foreground/80 space-y-1">
                 <p>Setup begins: {formatTimeRange(event.setupTime, event.startTime)}</p>
                 <p>Event ends: {formatTimeRange(event.endTime, event.teardownTime)}</p>
                 <p className="font-medium mt-2">Recreational use not available during this time</p>
@@ -124,12 +124,12 @@ export function OfficialEventDialog({ open, onOpenChange, event, facility }: Off
 
           {/* Notes */}
           {event.notes && (
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="p-4 bg-info/10 border border-info/30 rounded-lg">
               <div className="flex items-start gap-2">
-                <AlertCircle className="size-4 text-blue-700 mt-0.5 flex-shrink-0" />
+                <AlertCircle className="size-4 text-info mt-0.5 flex-shrink-0" />
                 <div>
-                  <div className="font-semibold text-sm text-blue-900 mb-1">Important Note</div>
-                  <p className="text-sm text-blue-800">{event.notes}</p>
+                  <div className="font-semibold text-sm mb-1">Important note</div>
+                  <p className="text-sm text-foreground/80">{event.notes}</p>
                 </div>
               </div>
             </div>
@@ -146,7 +146,7 @@ export function OfficialEventDialog({ open, onOpenChange, event, facility }: Off
               {event.contactEmail && (
                 <div className="flex items-center gap-2 ml-6">
                   <Mail className="size-4 text-primary" />
-                  <a href={`mailto:${event.contactEmail}`} className="text-blue-600 hover:underline">
+                  <a href={`mailto:${event.contactEmail}`} className="text-info hover:underline">
                     {event.contactEmail}
                   </a>
                 </div>

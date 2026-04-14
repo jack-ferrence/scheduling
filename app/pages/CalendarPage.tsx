@@ -108,31 +108,24 @@ export function CalendarPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
-      <div className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl shadow-lg">
-            <Calendar className="size-8 text-white" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold">25Live Calendar</h1>
-            <p className="text-lg text-muted-foreground mt-1">
-              Official Biola University athletic events and facility schedules
-            </p>
-          </div>
-        </div>
+      <div className="space-y-2">
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Facility Schedule</h1>
+        <p className="text-muted-foreground">
+          Official athletic events and facility reservations across campus.
+        </p>
       </div>
 
-      <Card className="border-orange-500 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20">
+      <Card className="border-warning/50 bg-warning/10">
         <CardContent className="flex items-start gap-4 p-6">
-          <div className="p-2 bg-orange-500 rounded-lg">
-            <AlertCircle className="size-6 text-white" />
+          <div className="p-2 bg-warning rounded-lg">
+            <AlertCircle className="size-6 text-warning-foreground" />
           </div>
           <div className="space-y-2 flex-1">
-            <p className="font-semibold text-lg text-orange-900 dark:text-orange-200">
+            <p className="font-semibold text-lg">
               These events block recreational facility use
             </p>
-            <p className="text-orange-800 dark:text-orange-300">
-              All events shown are confirmed athletic competitions, team practices, and scheduled maintenance from the Biola 25Live system.
+            <p className="text-foreground/80">
+              All events shown are confirmed athletic competitions, team practices, and scheduled maintenance.
               You cannot make recreational reservations during these time blocks.
             </p>
           </div>
@@ -140,9 +133,9 @@ export function CalendarPage() {
       </Card>
 
       {error && (
-        <Card className="border-red-500 bg-red-50 dark:bg-red-950/20">
-          <CardContent className="p-4 text-red-700 dark:text-red-300">
-            Could not load events: {error}. Run <code>npm run db:sync</code> to fetch data from 25live.
+        <Card className="border-destructive/50 bg-destructive/5" role="alert">
+          <CardContent className="p-4 text-sm text-destructive">
+            We couldn't load events right now. Check your connection and try refreshing the page.
           </CardContent>
         </Card>
       )}
@@ -188,8 +181,8 @@ export function CalendarPage() {
       </Card>
 
       <div className="grid xl:grid-cols-[1fr,500px] gap-8">
-        <Card className="shadow-lg">
-          <CardHeader className="border-b bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+        <Card className="shadow-sm">
+          <CardHeader className="border-b">
             <div className="flex items-center justify-between">
               <CardTitle className="text-2xl flex items-center gap-3">
                 <Calendar className="size-6" />
@@ -230,8 +223,8 @@ export function CalendarPage() {
                     <button
                       key={day.toISOString()}
                       onClick={() => setSelectedDate(day)}
-                      className={`aspect-square p-2 rounded-xl border-2 transition-all
-                        ${isSelected ? 'bg-primary text-primary-foreground border-primary shadow-lg scale-105' : 'hover:bg-muted border-border hover:border-primary/50 hover:shadow-md'}
+                      className={`aspect-square p-2 rounded-lg border transition-all
+                        ${isSelected ? 'bg-primary text-primary-foreground border-primary shadow-md' : 'hover:bg-muted border-border hover:border-primary/40'}
                         ${isCurrentDay ? 'ring-2 ring-primary ring-offset-2' : ''}
                         ${!isSameMonth(day, currentDate) ? 'opacity-30' : ''}
                         ${dayIsPast ? 'opacity-60' : ''}
@@ -269,12 +262,12 @@ export function CalendarPage() {
           </CardContent>
         </Card>
 
-        <Card className="shadow-lg xl:sticky xl:top-24 xl:h-fit xl:max-h-[calc(100vh-7rem)]">
+        <Card className="shadow-sm xl:sticky xl:top-24 xl:h-fit xl:max-h-[calc(100vh-7rem)]">
           <CardHeader className="border-b bg-muted/50">
             <CardTitle className="text-xl">
               {selectedDate ? (
                 <div className="space-y-1">
-                  <div className="text-2xl font-bold">{format(selectedDate, 'EEEE')}</div>
+                  <div className="text-2xl font-semibold tracking-tight">{format(selectedDate, 'EEEE')}</div>
                   <div className="text-lg text-muted-foreground font-normal">{format(selectedDate, 'MMMM d, yyyy')}</div>
                 </div>
               ) : 'Select a date'}
@@ -285,8 +278,8 @@ export function CalendarPage() {
               <div className="max-h-[600px] overflow-y-auto">
                 {selectedDateEvents.length === 0 ? (
                   <div className="text-center py-16 px-6">
-                    <div className="inline-flex items-center justify-center size-16 rounded-full bg-green-100 dark:bg-green-900/20 mb-4">
-                      <Calendar className="size-8 text-green-600 dark:text-green-400" />
+                    <div className="inline-flex items-center justify-center size-16 rounded-full bg-success/15 mb-4">
+                      <Calendar className="size-8 text-success" />
                     </div>
                     <p className="text-lg font-medium mb-2">No Events Scheduled</p>
                     <p className="text-muted-foreground">This day is available for recreational reservations</p>
@@ -304,7 +297,7 @@ export function CalendarPage() {
                                   <Icon className="size-5 text-white" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <h4 className="font-bold text-lg leading-tight mb-1">{event.title}</h4>
+                                  <h4 className="font-semibold text-lg leading-tight mb-1 text-balance">{event.title}</h4>
                                   <p className="text-sm text-muted-foreground font-medium">{event.organization}</p>
                                 </div>
                               </div>
@@ -339,7 +332,7 @@ export function CalendarPage() {
                               </div>
                             )}
                             <div className="pl-12">
-                              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/20 text-orange-900 dark:text-orange-300 rounded-lg">
+                              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-warning/15 text-warning rounded-lg">
                                 <AlertCircle className="size-4" />
                                 <span className="text-sm font-medium">Blocks recreational use</span>
                               </div>
@@ -362,7 +355,7 @@ export function CalendarPage() {
         </Card>
       </div>
 
-      <Card className="shadow-lg">
+      <Card className="shadow-sm">
         <CardHeader className="border-b bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
           <CardTitle className="text-2xl flex items-center gap-3">
             <Star className="size-6" />
@@ -390,7 +383,7 @@ export function CalendarPage() {
                       className="flex items-center gap-4 p-4 rounded-xl hover:bg-muted transition-all cursor-pointer group"
                       onClick={() => setSelectedDate(parseISO(event.startTime))}
                     >
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${getEventTypeGradient(event.eventType)} shadow-md group-hover:shadow-lg transition-shadow`}>
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${getEventTypeGradient(event.eventType)} shadow-sm group-hover:shadow-md transition-shadow`}>
                         <Icon className="size-5 text-white" />
                       </div>
                       <div className="flex-1 min-w-0">

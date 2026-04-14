@@ -28,7 +28,7 @@ export function TimeSlotCard({
   const date = new Date(timeSlot.date + 'T00:00:00');
 
   return (
-    <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+    <Card className="hover:shadow-md transition-all duration-300 border hover:border-primary/40">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">

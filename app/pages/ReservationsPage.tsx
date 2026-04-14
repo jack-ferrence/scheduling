@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { TimeSlot } from '../types';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import { formatTimeRange } from '../utils/timeFormat';
 import { format } from 'date-fns';
 import { fetchMyReservations, fetchFacilities } from '../lib/api';
+import { useVisibilityPolling } from '../hooks/useVisibilityPolling';
 import type { Facility } from '../types';
 
 export function ReservationsPage() {
@@ -15,27 +16,18 @@ export function ReservationsPage() {
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      try {
-        const [slots, facs] = await Promise.all([fetchMyReservations(), fetchFacilities()]);
-        if (!cancelled) {
-          setTimeSlots(slots);
-          setFacilities(facs);
-          setLoadError(null);
-        }
-      } catch (e) {
-        if (!cancelled) setLoadError(e instanceof Error ? e.message : 'Failed to load');
-      }
-    };
-    void load();
-    const t = setInterval(load, 6000);
-    return () => {
-      cancelled = true;
-      clearInterval(t);
-    };
+  const load = useCallback(async () => {
+    try {
+      const [slots, facs] = await Promise.all([fetchMyReservations(), fetchFacilities()]);
+      setTimeSlots(slots);
+      setFacilities(facs);
+      setLoadError(null);
+    } catch (e) {
+      setLoadError(e instanceof Error ? e.message : 'Failed to load');
+    }
   }, []);
+
+  useVisibilityPolling(load, 6000);
 
   const facilityById = useMemo(() => {
     const m = new Map<string, Facility>();
@@ -60,13 +52,13 @@ export function ReservationsPage() {
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">My Reservations</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">My Reservations</h1>
         <p className="text-muted-foreground mt-2">Manage your upcoming and past sessions</p>
       </div>
 
       {loadError && (
-        <p className="text-sm text-destructive">
-          Could not load reservations: {loadError}. Is the API running?
+        <p className="text-sm text-destructive" role="alert">
+          We couldn't load your reservations. Check your connection and try refreshing the page.
         </p>
       )}
 
@@ -83,7 +75,7 @@ export function ReservationsPage() {
               const date = new Date(slot.date + 'T00:00:00');
 
               return (
-                <Card key={slot.id} className="hover:shadow-lg transition-shadow">
+                <Card key={slot.id} className="hover:shadow-md transition-shadow">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div>
@@ -104,7 +96,7 @@ export function ReservationsPage() {
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       <Users className="size-4 text-primary" />
-                      <span>
+                      <span className="tabular-nums">
                         {slot.currentParticipants}/{slot.capacity} participants
                       </span>
                     </div>
@@ -126,10 +118,12 @@ export function ReservationsPage() {
           <Card>
             <CardContent className="py-12 text-center">
               <Calendar className="size-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Upcoming Reservations</h3>
-              <p className="text-muted-foreground mb-4">You haven't joined any sessions yet</p>
+              <h3 className="text-lg font-semibold mb-2">No upcoming reservations</h3>
+              <p className="text-muted-foreground mb-4">
+                Pick a facility to reserve a court, field, or pickup game.
+              </p>
               <Link to="/">
-                <Button>Browse Facilities</Button>
+                <Button>Browse facilities</Button>
               </Link>
             </CardContent>
           </Card>

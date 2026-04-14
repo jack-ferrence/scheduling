@@ -1,9 +1,10 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { FacilityDetails } from '../components/FacilityDetails';
 import { ChatDialog } from '../components/ChatDialog';
 import { TimeSlot, Message } from '../types';
 import { toast } from 'sonner';
+import { useVisibilityPolling } from '../hooks/useVisibilityPolling';
 
 export interface BlockedTime {
   booking_id: string;
@@ -58,14 +59,7 @@ export function FacilityDetailsPage() {
     }
   }, [id]);
 
-  useEffect(() => {
-    void load();
-  }, [load]);
-
-  useEffect(() => {
-    const t = setInterval(() => void load(), 5000);
-    return () => clearInterval(t);
-  }, [load]);
+  useVisibilityPolling(load, 5000);
 
   const facilitiesWithDistance = useMemo(
     () => (facility ? addDistanceAndETA([facility]) : []),
@@ -80,7 +74,7 @@ export function FacilityDetailsPage() {
   if (pageError && !facility) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <h1 className="text-2xl font-bold">Could not load facility</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Could not load facility</h1>
         <p className="text-muted-foreground mt-2">{pageError}</p>
         <button onClick={() => navigate('/')} className="mt-4 text-primary hover:underline">
           Go back to dashboard

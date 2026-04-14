@@ -119,7 +119,7 @@ export function FacilityDetails({
                     {facility.drivingETA !== undefined && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
-                          <Car className="size-4 text-blue-600" />
+                          <Car className="size-4 text-info" />
                           <span className="text-muted-foreground">Driving:</span>
                         </div>
                         <span className="font-medium">{facility.drivingETA} min</span>
@@ -128,7 +128,7 @@ export function FacilityDetails({
                     {facility.walkingETA !== undefined && (
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
-                          <PersonStanding className="size-4 text-green-600" />
+                          <PersonStanding className="size-4 text-success" />
                           <span className="text-muted-foreground">Walking:</span>
                         </div>
                         <span className="font-medium">{facility.walkingETA} min</span>
@@ -244,14 +244,14 @@ export function FacilityDetails({
               <button
                 key={i}
                 onClick={() => setSelectedDay(i)}
-                className={`flex-shrink-0 flex flex-col items-center px-4 py-2 rounded-xl border-2 transition-all ${
+                className={`flex-shrink-0 flex flex-col items-center px-4 py-2 rounded-lg border transition-all ${
                   selectedDay === i
                     ? 'bg-primary text-primary-foreground border-primary'
-                    : 'border-border hover:border-primary/50 hover:bg-muted'
+                    : 'border-border hover:border-primary/40 hover:bg-muted'
                 }`}
               >
                 <span className="text-xs font-medium">{format(day, 'EEE')}</span>
-                <span className="text-lg font-bold">{format(day, 'd')}</span>
+                <span className="text-lg font-semibold tabular-nums">{format(day, 'd')}</span>
                 <span className="text-xs">{format(day, 'MMM')}</span>
               </button>
             ))}
@@ -270,12 +270,12 @@ export function FacilityDetails({
             </CardHeader>
             <CardContent className="space-y-3">
               {dayBlocked.length === 0 ? (
-                <div className="flex items-center gap-3 p-4 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800">
-                  <CheckCircle className="size-5 text-green-600 flex-shrink-0" />
+                <div className="flex items-center gap-3 p-4 rounded-lg bg-success/10 border border-success/30">
+                  <CheckCircle className="size-5 text-success flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-green-800 dark:text-green-200">Fully Available</p>
-                    <p className="text-sm text-green-700 dark:text-green-300">
-                      No 25live events scheduled — open all day for recreational use.
+                    <p className="font-semibold text-success">Fully available</p>
+                    <p className="text-sm text-success/90">
+                      No official events scheduled — open all day for recreational use.
                     </p>
                   </div>
                 </div>
@@ -287,8 +287,8 @@ export function FacilityDetails({
                   {dayBlocked
                     .sort((a, b) => a.start_local.localeCompare(b.start_local))
                     .map((b) => (
-                      <div key={b.booking_id} className="flex items-start gap-3 p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800">
-                        <XCircle className="size-5 text-red-500 flex-shrink-0 mt-0.5" />
+                      <div key={b.booking_id} className="flex items-start gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/30">
+                        <XCircle className="size-5 text-destructive flex-shrink-0 mt-0.5" />
                         <div className="flex-1 min-w-0">
                           <p className="font-semibold text-sm">{b.event_name}</p>
                           {b.organization && (
