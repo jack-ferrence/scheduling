@@ -9,8 +9,8 @@ import { mockFacilities } from '../app/data/mockData';
 
 const COORDS: Record<string, [number, number] | null> = {
   'fac-1': [33.9065, -118.01383],    // Chase Gym
-  'fac-2': null,                                        // Al Barbour — unknown
-  'fac-3': null,                                        // Hope Basketball — unknown
+  'fac-2': [33.906085, -118.012803],                    // Al Barbour Field
+  'fac-3': [33.904503, -118.015142],                    // Hope Outdoor Basketball Court
   'fac-4': [33.89851, -118.02529],                      // Neff Park
   'fac-5': [33.910801, -118.0238],                     // Gardenhill Park
 };
