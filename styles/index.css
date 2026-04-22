@@ -1,0 +1,19 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+@import 'leaflet/dist/leaflet.css';
+
+.leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.leaflet-popup-content {
+  margin: 0;
+  width: 340px !important;   /* force Leaflet to honor our width */
+}
+.leaflet-popup-content a {
+  text-decoration: none;     /* kill underline on the card Link */
+  color: inherit;
+}

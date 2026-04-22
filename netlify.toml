@@ -1,0 +1,38 @@
+# Netlify deploy config for biola-sports-reservations.
+#
+# Frontend: Vite static build to `dist/`.
+# API:      Express app wrapped as a single Netlify Function (netlify/functions/api.ts).
+# Cron:     25live sync runs every 6 hours via a scheduled function.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Use esbuild to bundle the TS functions (pulls in express, pg, etc.)
+[functions]
+  node_bundler = "esbuild"
+  # Make sure native/optional deps are bundled correctly
+  external_node_modules = ["pg-native"]
+
+# Scheduled sync: every 6 hours, on the hour
+[functions."sync-25live"]
+  schedule = "0 */6 * * *"
+
+# Proxy /api/* to the Express-in-a-function handler.
+# status = 200 makes this a rewrite (path is preserved), so routes
+# like /api/facilities in server/index.ts continue to match.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

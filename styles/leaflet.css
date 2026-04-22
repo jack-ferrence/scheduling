@@ -1,0 +1,7 @@
+/* Leaflet Map Styles - Import this in components that use the map */
+@import 'leaflet/dist/leaflet.css';
+
+/* Fix for Leaflet marker icons in production */
+.leaflet-default-icon-path {
+  background-image: url(https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png);
+}
